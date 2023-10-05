@@ -1,3 +1,3 @@
 # pokemon-sleep-simulator
 
-ポケスリのEPシミュレータ
+ポケモンスリープEPシミュレータ
