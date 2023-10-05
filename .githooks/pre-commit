@@ -1,0 +1,20 @@
+#!/bin/bash
+# chmod u+x pre-commit
+for file in $(git diff --cached --name-only); do
+    if [[ $file == *.ipynb ]]; then
+        # delete output
+        jupyter nbconvert --ClearOutputPreprocessor.enabled=True  \
+        --ClearMetadataPreprocessor.enabled=True  \
+        --ClearMetadataPreprocessor.preserve_nb_metadata_mask "language_info" \
+        --ClearMetadataPreprocessor.preserve_nb_metadata_mask "kernelspec" \
+        --to notebook --inplace ${file}
+        # save output
+        jupyter nbconvert \
+        --ClearMetadataPreprocessor.enabled=True  \
+        --ClearMetadataPreprocessor.preserve_nb_metadata_mask "language_info" \
+        --ClearMetadataPreprocessor.preserve_nb_metadata_mask "kernelspec" \
+        --to notebook --inplace ${file}
+        # # add modified file to the staging area
+        git add ${file}
+    fi
+done
